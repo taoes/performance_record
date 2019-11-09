@@ -36,3 +36,19 @@ $ CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build ./src/Main.go
 $ SET CGO_ENABLED=0 SET GOOS=darwin3 SET GOARCH=amd64 go build ./src/Main.go
 $ SET CGO_ENABLED=0 SET GOOS=linux SET GOARCH=amd64 go build ./src/Main.go
 ```
+
+
+## 效果预览截图
+
+
+### CSV预览图
+
+
+![CSV](./doc/example.jpg)
+
+> 根据个人电脑CPU的配置不同，其列数也不尽相同。
+
+### 曲线图预览
+![CSV](./doc/performance-excel.png)
+
+> 个人笔记本电脑为8核处理器，所以有8个数据，Excel绘制的折线仅仅绘制了平均使用率，可根据个人喜好，使用WPS或者Excel打开CSV文件绘制变化图
