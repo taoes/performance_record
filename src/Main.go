@@ -18,8 +18,9 @@ var wg sync.WaitGroup
 var execSuccess = false
 
 func main() {
+
 	chanExec := make(chan int, 10)
-	wg.Add(2)
+	wg.Add(3)
 
 	go sendSearchCommand(chanExec)
 	go performance(chanExec)
@@ -34,10 +35,8 @@ func main() {
 // 执行命令
 func execCommand() {
 	// 延时5分钟，模拟数据
-	time.Sleep(time.Minute * 5)
-
+	time.Sleep(time.Hour)
 	execSuccess = true
-	logs.Debug("目标程序执行完成.....")
 }
 
 // 一直发送数据直到程序执行完毕
@@ -83,10 +82,10 @@ func performance(chanExec chan int) {
 			break
 		}
 		sum = 0
-		logs.Debug("第", chanNumber, "次收集CPU数据，请稍后.....")
+		logs.Debug("第", chanNumber, "次收集CPU数据")
 
 		// CPU 采样案例代码
-		data, _ := cpu.Percent(time.Second*1, true)
+		data, _ := cpu.Percent(time.Second*2, true)
 		dataStr = dataStr[0:0]
 		dataStr = append(dataStr, strconv.Itoa(chanNumber))
 		for i := 0; i < len(data); i++ {
@@ -94,6 +93,7 @@ func performance(chanExec chan int) {
 			dataStr = append(dataStr, strconv.FormatFloat(data[i], 'f', 6, 64))
 		}
 		rate := sum / (float64(count))
+		logs.Debug("第", chanNumber, "次收集CPU数据,当前平均使用率：", rate)
 		dataStr = append(dataStr, strconv.FormatFloat(rate, 'f', 6, 64))
 		_ = write.Write(dataStr)
 		write.Flush()
